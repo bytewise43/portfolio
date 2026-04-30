@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "go tool reflex -r '^.*\\.go$' -s -- go run cmd/main.go",
+    "build": "go build -o dist/api cmd/main.go",
+    "start": "./dist/api",
+    "check-types": "go vet ./...",
+    "lint": "go tool -modfile=golangci-lint.go.mod golangci-lint run",
+    "format": "go tool -modfile=golangci-lint.go.mod golangci-lint fmt",
+    "migrate:create": "go tool migrate create -ext sql -dir sql/migrations",
+    "migrate:apply": "go run cmd/migrate/main.go",
+    "generate": "go generate ./..."
+  }
+}

@@ -1,0 +1,15 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "sql/queries"
+    schema: "sql/migrations"
+    database:
+      uri: "postgres://postgres:password@localhost:5432/portfolio?sslmode=disable"
+    gen:
+      go:
+        package: "database"
+        out: "internal/database"
+        emit_enum_valid_method: true
+        emit_all_enum_values: true
+        emit_empty_slices: true
+        emit_interface: true
