@@ -3,8 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "go tool reflex -r '^.*\\.go$' -s -- go run cmd/main.go",
-    "build": "go build -o dist/api cmd/main.go",
+    "dev": "go tool reflex -r '^.*\\.go$' -s -- go run cmd/api/main.go",
+    "build": "go build -o dist/api cmd/api/main.go",
     "start": "./dist/api",
     "check-types": "go vet ./...",
     "lint": "go tool -modfile=golangci-lint.go.mod golangci-lint run",
