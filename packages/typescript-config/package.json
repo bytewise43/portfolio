@@ -1,0 +1,14 @@
+{
+  "name": "@repo/typescript-config",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.13",
+    "@repo/biome-config": "*"
+  }
+}
