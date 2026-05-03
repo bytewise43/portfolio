@@ -1,0 +1,27 @@
+@reference "../../app/globals.css";
+
+.link {
+  @apply relative inline-flex items-center font-mono text-muted-foreground pb-0.5 text-sm;
+}
+
+.link::after,
+.link::before {
+  content: "";
+  @apply absolute left-0 bottom-0 w-full h-px transition-transform duration-350 ease-in-out;
+}
+
+.link::after {
+  @apply bg-current origin-right scale-x-100;
+}
+
+.link:hover::after {
+  @apply scale-x-0;
+}
+
+.link::before {
+  @apply bg-primary origin-left scale-x-0 delay-100;
+}
+
+.link:hover::before {
+  @apply scale-x-100;
+}

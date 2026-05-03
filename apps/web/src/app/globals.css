@@ -48,6 +48,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  /* Custom variables */
+  --header-height: 5rem;
+  --max-content-width: 80rem;
+  --edge-spacing: 2rem;
 }
 
 :root {
@@ -128,5 +132,8 @@
   }
   html {
     @apply font-sans;
+  }
+  em {
+    @apply font-hand text-primary;
   }
 }

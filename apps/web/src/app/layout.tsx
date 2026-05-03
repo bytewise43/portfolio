@@ -54,7 +54,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class">
           <Header />
-          {children}
+          <main className="max-w-(--max-content-width) w-full h-[calc(100vh-var(--header-height)-4rem)] p-(--edge-spacing) mx-auto mt-16">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

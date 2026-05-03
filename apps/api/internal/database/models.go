@@ -5,11 +5,11 @@
 package database
 
 import (
-	"database/sql"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Test struct {
 	ID        int32
 	Name      string
-	CreatedAt sql.NullTime
+	CreatedAt pgtype.Timestamptz
 }

@@ -1,10 +1,14 @@
-// Package main is the main entry point of the app
+// Package main is the entry point for the API application. It initializes and runs the application using Uber's Fx framework.
 package main
 
-import "fmt"
+import (
+	"go.uber.org/fx"
+
+	"github.com/bytewise43/portfolio/apps/api/internal/app"
+)
 
 //go:generate go tool sqlc generate -f ../../sqlc.yml
 
 func main() {
-	fmt.Println("Hello, World!")
+	fx.New(app.Module).Run()
 }

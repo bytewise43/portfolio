@@ -1,10 +1,10 @@
 "use client";
 import { Menu, Moon, Sun, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { type FunctionComponent, useState } from "react";
-import { cn } from "@/lib/utils";
+import { type FunctionComponent, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -22,34 +22,23 @@ const items = [
   { href: "/about", text: "about" },
 ];
 
+const iconTransition = { duration: 0.2, ease: [0.2, 0.8, 0.2, 1] as const };
+
 const Header: FunctionComponent = () => {
   const pathname = usePathname();
-  const { theme, themes, setTheme } = useTheme();
+  const { theme, resolvedTheme, themes, setTheme } = useTheme();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const openMenu = () => {
-    setMenuOpen(true);
-    setIsClosing(false);
-  };
-
-  const closeMenu = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setMenuOpen(false);
-      setIsClosing(false);
-    }, 200);
-  };
-
-  const handleToggle = () => {
-    if (menuOpen) closeMenu();
-    else openMenu();
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-md w-full border-b border-b-border h-20 bg-background/80">
-        <div className="max-w-7xl mx-auto h-full w-full flex items-center justify-between px-8">
+      <header className="sticky top-0 z-50 backdrop-blur-md w-full border-b border-b-border h-(--header-height) bg-background/80">
+        <div className="max-w-(--max-content-width) mx-auto h-full w-full flex items-center justify-between px-(--edge-spacing)">
           <Link href="/" className="font-hand text-4xl">
             @nico<span className="text-primary">.</span>benninger
             <span className="text-primary">.</span>
@@ -73,8 +62,30 @@ const Header: FunctionComponent = () => {
                   size="icon-lg"
                 >
                   <span className="relative size-5">
-                    <Sun className="absolute size-5 inset-0 transition-all duration-200 opacity-100 scale-100 dark:opacity-0 dark:scale-75" />
-                    <Moon className="absolute size-5 inset-0 transition-all duration-200 dark:opacity-100 darkscale-100 opacity-0 scale-75" />
+                    <motion.span
+                      className="absolute inset-0 flex items-center justify-center"
+                      initial={false}
+                      animate={{
+                        opacity: !mounted || resolvedTheme === "dark" ? 0 : 1,
+                        scale: !mounted || resolvedTheme === "dark" ? 0.6 : 1,
+                        rotate: !mounted || resolvedTheme === "dark" ? -45 : 0,
+                      }}
+                      transition={iconTransition}
+                    >
+                      <Sun className="size-5" />
+                    </motion.span>
+                    <motion.span
+                      className="absolute inset-0 flex items-center justify-center"
+                      initial={false}
+                      animate={{
+                        opacity: !mounted || resolvedTheme !== "dark" ? 0 : 1,
+                        scale: !mounted || resolvedTheme !== "dark" ? 0.6 : 1,
+                        rotate: !mounted || resolvedTheme !== "dark" ? 45 : 0,
+                      }}
+                      transition={iconTransition}
+                    >
+                      <Moon className="size-5" />
+                    </motion.span>
                   </span>
                 </Button>
               </DropdownMenuTrigger>
@@ -100,52 +111,66 @@ const Header: FunctionComponent = () => {
               className="md:hidden rounded-full"
               variant="outline"
               size="icon-lg"
-              onClick={handleToggle}
+              onClick={() => setMenuOpen((o) => !o)}
               aria-expanded={menuOpen}
               aria-label="Toggle menu"
             >
               <span className="relative size-5">
-                <Menu
-                  className={cn(
-                    "absolute inset-0 size-5 transition-all duration-200",
-                    menuOpen ? "opacity-0 blur-xs" : "opacity-100 rotate-180",
-                  )}
-                />
-                <X
-                  className={cn(
-                    "absolute inset-0 size-5 transition-all duration-200",
-                    menuOpen ? "opacity-100 rotate-180" : "opacity-0 blur-xs",
-                  )}
-                />
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={{
+                    opacity: menuOpen ? 0 : 1,
+                    scale: menuOpen ? 0.6 : 1,
+                    rotate: menuOpen ? 45 : 0,
+                  }}
+                  transition={iconTransition}
+                >
+                  <Menu className="size-5" />
+                </motion.span>
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={{
+                    opacity: menuOpen ? 1 : 0,
+                    scale: menuOpen ? 1 : 0.6,
+                    rotate: menuOpen ? 0 : -45,
+                  }}
+                  transition={iconTransition}
+                >
+                  <X className="size-5" />
+                </motion.span>
               </span>
             </Button>
           </div>
         </div>
       </header>
 
-      {menuOpen && (
-        <div
-          className={cn(
-            "fixed inset-0 top-20 z-40 bg-background/80 backdrop-blur-md md:hidden",
-            isClosing
-              ? "animate-out fade-out slide-out-to-top-2 duration-200 fill-mode-forwards"
-              : "animate-in fade-in slide-in-from-top-2 duration-200",
-          )}
-        >
-          <nav className="flex flex-col px-8 pt-4">
-            {items.map((item) => (
-              <NavLink
-                key={item.text}
-                href={item.href}
-                text={item.text}
-                active={pathname === item.href}
-                orientation="vertical"
-                onClick={closeMenu}
-              />
-            ))}
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] as const }}
+            className="fixed inset-0 top-20 z-40 bg-background/80 backdrop-blur-md md:hidden"
+          >
+            <nav className="flex flex-col px-8 pt-4">
+              {items.map((item) => (
+                <NavLink
+                  key={item.text}
+                  href={item.href}
+                  text={item.text}
+                  active={pathname === item.href}
+                  orientation="vertical"
+                  onClick={() => setMenuOpen(false)}
+                />
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

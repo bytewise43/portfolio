@@ -20,7 +20,7 @@ const NavLink: FunctionComponent<NavLinkProps> = ({
   const linkClass =
     "font-mono rounded-full py-3 px-5 hover:bg-secondary hover:text-secondary-foreground transition-colors duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)]";
   const dotClass =
-    "size-1.5 rounded-full flex-shrink-0 transition-colors duration-200";
+    "size-1.5 rounded-full flex-shrink-0 transition-colors duration-200 relative";
 
   if (orientation === "vertical") {
     return (

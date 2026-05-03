@@ -14,7 +14,7 @@ SELECT id, name, created_at FROM test WHERE id = $1
 `
 
 func (q *Queries) Test(ctx context.Context, id int32) (Test, error) {
-	row := q.db.QueryRowContext(ctx, test, id)
+	row := q.db.QueryRow(ctx, test, id)
 	var i Test
 	err := row.Scan(&i.ID, &i.Name, &i.CreatedAt)
 	return i, err
