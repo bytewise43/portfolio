@@ -1,48 +1,65 @@
 {
   "name": "web",
-  "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "check-types": "tsc --noEmit",
-    "lint": "biome check",
-    "lint:fix": "biome check --write --unsafe",
-    "format": "biome format --write"
+    "dev": "vite dev --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "format": "biome format",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --fix --unsafe",
+    "check": "biome check"
   },
   "dependencies": {
+    "@fontsource-variable/caveat": "5.2.8",
+    "@fontsource-variable/inter": "5.2.8",
+    "@fontsource-variable/jetbrains-mono": "5.2.8",
+    "@fontsource/instrument-serif": "5.2.8",
+    "@tailwindcss/vite": "4.2.4",
+    "@tanstack/react-devtools": "0.10.2",
+    "@tanstack/react-query": "5.100.9",
+    "@tanstack/react-query-devtools": "5.100.9",
+    "@tanstack/react-router": "1.169.2",
+    "@tanstack/react-router-devtools": "1.166.13",
+    "@tanstack/react-router-ssr-query": "1.166.12",
+    "@tanstack/react-start": "1.167.65",
+    "@tanstack/router-plugin": "1.167.35",
+    "@unpic/react": "1.0.2",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "lucide-react": "1.14.0",
     "motion": "12.38.0",
-    "next": "16.2.4",
-    "next-themes": "0.4.6",
+    "nitro": "3.0.260429-beta",
     "radix-ui": "1.4.3",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "shadcn": "4.6.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "shadcn": "4.7.0",
     "tailwind-merge": "3.5.0",
+    "tailwindcss": "4.2.4",
     "tw-animate-css": "1.4.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.13",
+    "@biomejs/biome": "2.4.14",
     "@repo/biome-config": "*",
-    "@repo/typescript-config": "*",
-    "@tailwindcss/postcss": "4.2.4",
-    "@types/node": "25.6.0",
+    "@rolldown/plugin-babel": "0.2.3",
+    "@tailwindcss/typography": "0.5.19",
+    "@tanstack/devtools-vite": "0.6.0",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "25.6.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "@vitejs/plugin-rsc": "0.5.26",
     "babel-plugin-react-compiler": "1.0.0",
-    "tailwindcss": "4.2.4",
-    "typescript": "6.0.3"
-  },
-  "ignoreScripts": [
-    "sharp",
-    "unrs-resolver"
-  ],
-  "trustedDependencies": [
-    "sharp",
-    "unrs-resolver"
-  ]
+    "jsdom": "29.1.1",
+    "typescript": "6.0.3",
+    "vite": "8.0.11",
+    "vitest": "4.1.5"
+  }
 }
